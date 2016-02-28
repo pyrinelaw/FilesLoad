@@ -48,11 +48,13 @@ renew();
 
 ### github
 [完整代码下载: https://github.com/pyrinelaw/pFastCorres](https://github.com/pyrinelaw/FilesLoad)
-[示例: https://pyrinelaw.github.io/FilesLoad]
+
+[示例: https://pyrinelaw.github.io/FilesLoad](https://pyrinelaw.github.io/FilesLoad)
 
 ###其他
 
 如果已使用seajs或者requirejs，不推荐使用此插件。
+
 [关于LABjs http://labjs.com/](http://labjs.com/)
 
 ------
