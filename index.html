@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Examples</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	
+	<style type="text/css">
+	
+	html, body{ min-height: 100%; height: 100%; }
+
+	*{ margin: 0; padding: 0; color: white; font-size: 32px; font-weight: bold; }
+
+	#content{ height: 100%; background: #000; }
+
+	.demo-link-adv{ width: 100%; text-align: center; font-size: 14px;
+	position: fixed; bottom: 20px; color: rgba(255, 255, 255, 0.9); z-index: 2; }
+	.demo-link-adv a{ margin: 12px; }
+
+	.adv{ position: fixed; top: 50%; left: 50%; margin-left: -220px; margin-top: -15px; text-align: center; }
+	.adv .bg{ width: 440px; height: 10px; border-radius: 5px; background: rgba(255, 255, 255, 0.4); }
+	.adv .process{ width: 0%; height: 10px; border-radius: 5px; background: rgba(255, 255, 255, 1); }
+	.adv .text{ padding-top: 10px; font-size: 10px; }
+
+	</style>
+
+</head>
+
+<body>
+
+<div id="content"></div>
+
+<div class="adv">
+	<div class="bg">
+		<div class="process" id="process"></div>
+	</div>
+	<div class="text" id="statuTxt">即将开始加载</div>
+</div>
+
+</body>
+
+<script type="text/javascript" src="src/js/lib/LAB.js"></script>
+<script type="text/javascript" src="src/js/FilesLoad.js"></script>
+
+<script type="text/javascript">
+	
+var now = new Date().getTime();
+
+var files = ['tmp/a.css', 'tmp/b.css', 'tmp/a.png', 'tmp/b.jpg', 'tmp/c.jpg', 'tmp/d.jpg', 'tmp/e.jpg', 'tmp/a.js', 'tmp/b.js'];
+
+for(var i=0; i<files.length; i++) {
+	files[i] = (files[i]+'?time='+now);
+}
+
+var txtEl = document.getElementById('statuTxt'),
+	processEl = document.getElementById('process');
+
+setTimeout(function(){
+	
+	var re = FilesLoad({
+		files: files,
+		callbacks: {
+			before: function() {
+				txtEl.innerHTML = '开始加载';
+
+				console.warn('开始加载');
+			},
+			beforeLoading: function(file) {
+				txtEl.innerHTML = file + '文件开始加载';
+
+				console.warn(file + '文件开始加载');
+			},
+			loading: function(counts) {
+				txtEl.innerHTML = '当前正在加载文件,'+(files.length-counts)+'/'+files.length;
+				var process = (files.length-counts)/files.length*100;
+				console.warn(process+'%');
+				processEl.style.width = process+'%';
+
+				console.warn('当前正在加载文件,'+(files.length-counts)+'/'+files.length);
+				console.warn(process+'%');
+			},
+			after: function() {
+				console.warn('callbacks - after');
+			},	
+			success: function() {
+				processEl.style.width = '100%';
+				txtEl.innerHTML = '全部文件加载成功';
+
+				console.warn('全部文件加载成功');
+				console.warn('100%');
+			},
+			error: function() {
+				txtEl.innerHTML = '文件加载失败，请检查网络或者查看文件路劲是否正确';
+
+				console.warn('文件加载失败，请检查网络或者查看文件路劲是否正确');
+			}
+		}
+	});
+
+}, 2000);
+
+</script>
+
+</html>
